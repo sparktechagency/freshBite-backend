@@ -19,14 +19,35 @@ const config_1 = require("./app/config");
 const globalError_1 = require("./app/middleware/globalError");
 const NotFound_1 = require("./app/middleware/NotFound");
 const routes_1 = require("./app/routes");
+const http_1 = __importDefault(require("http"));
+const socket_io_1 = require("socket.io");
 const app = (0, express_1.default)();
+const httpServer = http_1.default.createServer(app);
+const io = new socket_io_1.Server(httpServer, {
+    cors: {
+        origin: "http://localhost:3008",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    },
+});
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3008",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use('/api/v1', routes_1.router);
+io.on("connection", (socket) => {
+    console.log("socket connected with backend");
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
+    });
+    socket.emit('message', 'hello message');
+});
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         yield mongoose_1.default.connect("mongodb://localhost:27017/express");
-        app.listen(config_1.envData.port, () => {
+        httpServer.listen(config_1.envData.port, () => {
             console.log(`server is run on ${config_1.envData.port}`);
         });
     });
