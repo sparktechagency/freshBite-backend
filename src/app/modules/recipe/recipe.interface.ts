@@ -6,29 +6,32 @@ export interface Preparation {
 }
 
 export interface TnutritionValue {
-  value: string;
-  quantity: string;
+  nutrient: string;
+  amount: string;
+  unit: 'gm' | 'mg' | 'kcal'
 }
 
 export interface Tingredient {
   name: string;
   quantity: string;
+  unit: 'tb' | 'kg' | 'gm' | 'mg'
 }
 
 
 export type Tinstruction = {
-  title: string,
+  description: string,
   videoUrl: string
 }
 
 export type TrequiredSkill = {
   title: string;
   videoUrl: string;
+  description: string
 };
 
 export type Trating = {
   rating: number,
-  review:string
+  review: string
 }
 
 
@@ -37,23 +40,17 @@ export interface Trecipe {
   recipe_Name: string;
   description: string;
   portionSize: number;
-  imagesorVideos: string[];
+  coverImage: string;
+  images : string[]
   allergens: string[];
-  meal_type: string[];
   recipe_components: string[];
+  cooking_mode: string[];
   nutrition_value: TnutritionValue[];
   ingredients: Tingredient[];
-  cooking_mode: string[];
-  flavor_profile: string[];
-  cuisine_type: string[];
-  season: string[];
-  diet_type: string[];
   preparation: Preparation;
   required_Skill: TrequiredSkill[];
   instruction: [Tinstruction];
   rating: [Trating];
-  category: string;
-  subCategory: string;
   tag: string[];
   isDeleted: boolean;
 }

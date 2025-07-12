@@ -12,9 +12,7 @@ export const createRecipeController = catchAsync(
       success: true,
       code: status.OK,
       message: "recipe created successfully",
-      data: {
-        attributes: createrecipe,
-      },
+      response: createrecipe
     });
   }
 );

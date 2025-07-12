@@ -6,18 +6,18 @@ import { envData } from './app/config'
 import { GlobalError } from './app/middleware/globalError'
 import { notFound } from './app/middleware/NotFound'
 import { router } from './app/routes'
-import http from 'http'
-import { Server } from 'socket.io'
+// import http from 'http'
+// import { Server } from 'socket.io'
 
 const app = express()
-const httpServer = http.createServer(app)
-const io = new Server(httpServer, {
-  cors: {
-    origin: "http://localhost:3008",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  },
-});
+// const httpServer = http.createServer(app)
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "http://localhost:3008",
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   },
+// });
 
 
 
@@ -27,31 +27,33 @@ app.use(
     origin: "http://localhost:3008",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials:true
   })
 );
 app.use('/api/v1', router)
 
 
-io.on("connection", (socket) => {
-  console.log("socket connected with backend");
+// io.on("connection", (socket) => {
+//   console.log("socket connected with backend");
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected");
+//   });
 
-  socket.emit('message','hello message')
-});
+//   socket.emit('message','hello message')
+// });
 
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/express");
+  await mongoose.connect("mongodb://localhost:27017/freshBite");
   
-  
-
-  httpServer.listen(envData.port, () => {
+  app.listen(envData.port, () => {
     console.log(`server is run on ${envData.port}`);
   });
-   
+
+  // httpServer.listen(envData.port, () => {
+  //   console.log(`server is run on ${envData.port}`);
+  // });
 }
 
 

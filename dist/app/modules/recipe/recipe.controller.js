@@ -22,9 +22,7 @@ exports.createRecipeController = (0, catchAsync_1.default)((req, res, next) => _
         success: true,
         code: http_status_1.default.OK,
         message: "recipe created successfully",
-        data: {
-            attributes: createrecipe,
-        },
+        response: createrecipe
     });
 }));
 exports.getRecipeController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
