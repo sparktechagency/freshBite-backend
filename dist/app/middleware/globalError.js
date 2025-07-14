@@ -29,7 +29,7 @@ const GlobalError = (err, req, res, next) => {
         code: statusCode,
         message: message,
         errorSource: errorSource,
-        // mtEror:err,
+        mtEror: err,
         stack: config_1.envData.mode === "development" ? err.stack : undefined,
     });
 };

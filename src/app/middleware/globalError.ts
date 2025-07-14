@@ -38,9 +38,8 @@ if(err?.name === 'ValidationError'){
     code: statusCode,
     message: message,
     errorSource: errorSource,
-    // mtEror:err,
+    mtEror:err,
     stack: envData.mode === "development" ? err.stack : undefined,
   });
-
 
 };

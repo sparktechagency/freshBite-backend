@@ -26,13 +26,11 @@ exports.createRecipeController = (0, catchAsync_1.default)((req, res, next) => _
     });
 }));
 exports.getRecipeController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const getRecipeData = yield recipe_model_1.default.find();
+    const getRecipeData = yield recipe_model_1.default.find().select('recipe_Name coverImage').sort('-createdAt');
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,
         message: "recipe retrive successfully",
-        data: {
-            attributes: getRecipeData,
-        },
+        data: getRecipeData
     });
 }));
