@@ -24,7 +24,7 @@ export const getIngredientFromMealPlan: RequestHandler = catchAsync(async (req, 
     res.status(status.OK).json({
         success: true,
         code: status.OK,
-        message: "meal plan retrived successfully",
+        message: "ingredient retrived successfully",
         data: manupulatingIngredient
     });
 })

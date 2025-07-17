@@ -28,7 +28,7 @@ exports.createMealPlanController = (0, catchAsync_1.default)((req, res, next) =>
 }));
 exports.getMealPlanByEmailController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const findingByEmail = yield plan_model_1.MealPlan.find({ userEmail: (_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.email }).select('-dates -isDelated -description');
+    const findingByEmail = yield plan_model_1.MealPlan.find({ userEmail: (_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.email }).select('-recipes -isDelated -description');
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,

@@ -32,7 +32,7 @@ exports.getIngredientFromMealPlan = (0, catchAsync_1.default)((req, res, next) =
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,
-        message: "meal plan retrived successfully",
+        message: "ingredient retrived successfully",
         data: manupulatingIngredient
     });
 }));
