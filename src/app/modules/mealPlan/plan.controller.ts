@@ -17,14 +17,15 @@ export const createMealPlanController = catchAsync(async (req: Request, res: Res
 
 
 export const getMealPlanByEmailController: RequestHandler = catchAsync(async (req, res, next) => {
-    const findingByEmail = await MealPlan.find({ userEmail: req?.query?.email }).select('userEmail')
+    const findingByEmail = await MealPlan.find({ userEmail: req?.query?.email }).select('-dates -isDelated -description')
     res.status(status.OK).json({
         success: true,
         code: status.OK,
-        message: "meal plan created successfully",
+        message: "meal plan retrived successfully",
         data: findingByEmail
     });
 })
+
 
 
 export const updatePlanController: RequestHandler = catchAsync(async (req, res, next) => {

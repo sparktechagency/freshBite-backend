@@ -12,7 +12,7 @@ export type TmealPlan = {
     status: 'plan to eat' | 'plan to cook',
     title: string,
     description: string,
-    plan_recipes: [Trecipe],
+    recipes: [Trecipe],
     meal_time : 'breakfast' | 'lunch' | 'snack' | 'dinner',
     portion : number,
     isDelated:boolean

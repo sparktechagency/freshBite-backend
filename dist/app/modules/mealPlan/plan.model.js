@@ -39,7 +39,7 @@ const mealPlanSchema = new mongoose_1.Schema({
         required: [true, 'description is required'],
         trim: true
     },
-    plan_recipes: {
+    recipes: {
         type: [recipeSchema],
         required: [true, 'recipes is required'],
     },

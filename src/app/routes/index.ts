@@ -1,3 +1,4 @@
+import { listRoute } from './../modules/groceryList/list.route';
 import { Router } from "express";
 import { userRouter } from "../modules/user/user.route";
 import { recipeRoutes } from "../modules/recipe/recipe.route";
@@ -10,5 +11,6 @@ export const router = Router()
 router.use('/user', userRouter)
 router.use('/recipe', recipeRoutes)
 router.use('/meal',mealRouter)
+router.use('/list',listRoute)
 
 

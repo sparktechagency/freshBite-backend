@@ -33,9 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ingredientSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 // Define the Ingredient schema
-const ingredientSchema = new mongoose_1.Schema({
+exports.ingredientSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     quantity: { type: String, required: true },
     unit: { type: String, enum: { values: ['tbsp', 'tsp', 'can', 'large', 'small', 'medium', 'cup', 'kg', 'gm', 'mg'], message: "{VALUE} is not a valid unit" }, required: true }
@@ -74,7 +75,7 @@ const recipeSchema = new mongoose_1.Schema({
     allergens: { type: [String], required: [true, "allergens is required"] },
     recipe_components: { type: [String], required: [true, "recipe components is required"] },
     cooking_mode: { type: [String], required: [true, "cooking mode is required"], },
-    ingredients: { type: [ingredientSchema], required: [true, "ingredients is required"] },
+    ingredients: { type: [exports.ingredientSchema], required: [true, "ingredients is required"] },
     nutrition_value: { type: [nutritionValueSchema], required: [true, "nutration value is required"], },
     preparation: { type: preparationSchema, required: [true, "preparation is required"], },
     required_Skill: { type: [requiredSkillSchema], required: [true, "skill feild is required"], },

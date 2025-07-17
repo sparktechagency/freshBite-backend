@@ -1,0 +1,13 @@
+import { Tingredient } from "../recipe/recipe.interface"
+
+export type Tlist = {
+    recipe_name:string,
+    ingredients: [Tingredient]
+}
+
+export type TGroceryList = {
+    title : string,
+    shopping_person: string,
+    shopping_date : string,
+    lists : [Tlist]
+}

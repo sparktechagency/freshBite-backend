@@ -10,7 +10,7 @@ import {
 } from "./recipe.interface";
 
 // Define the Ingredient schema
-const ingredientSchema = new Schema<Tingredient>({
+export const ingredientSchema = new Schema<Tingredient>({
   name: { type: String, required: true },
   quantity: { type: String, required: true },
   unit: { type: String, enum: { values: ['tbsp', 'tsp', 'can','large','small', 'medium', 'cup', 'kg', 'gm', 'mg'], message: "{VALUE} is not a valid unit" }, required: true }

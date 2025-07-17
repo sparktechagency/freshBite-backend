@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import catchAsync from "../../lib/catchAsync";
 import Recipemodel from "./recipe.model";
 import status from "http-status";
@@ -24,5 +24,16 @@ export const getRecipeController = catchAsync(async (req: Request, res: Response
     code: status.OK,
     message: "recipe retrive successfully",
     data: getRecipeData
+  });
+})
+
+
+export const getRecipeByIdController:RequestHandler = catchAsync(async (req,res,next)=>{
+  const findRecipe = await Recipemodel.findById(req?.params?.id)
+  res.status(status.OK).json({
+    success: true,
+    code: status.OK,
+    message: "recipe retrive successfully",
+    data: findRecipe
   });
 })

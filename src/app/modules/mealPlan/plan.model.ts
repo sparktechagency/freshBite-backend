@@ -42,7 +42,7 @@ const mealPlanSchema = new Schema<TmealPlan>({
         required: [true, 'description is required'],
         trim: true
     },
-    plan_recipes: {
+    recipes: {
         type: [recipeSchema],
         required: [true, 'recipes is required'],
     },
