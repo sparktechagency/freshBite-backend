@@ -8,28 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIngredientServices = void 0;
+const dateString_1 = __importDefault(require("../../helpers/dateString"));
 const plan_model_1 = require("../mealPlan/plan.model");
-function getSpecialDate(dates) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayStr = today.toLocaleDateString();
-    if (dates.includes(todayStr)) {
-        // console.log(todayStr)
-        return todayStr;
-    }
-    const minDate = new Date(Math.min(...dates.map(dateStr => new Date(dateStr).getTime())));
-    minDate.setDate(minDate.getDate() - 1);
-    return minDate.toLocaleDateString();
-}
 const getIngredientServices = (email) => __awaiter(void 0, void 0, void 0, function* () {
     let allPlanRecipes = [];
     try {
         const findingByEmail = yield plan_model_1.MealPlan.find({ userEmail: email }).populate("recipes.recipe_id").select('dates recipes');
         findingByEmail.map((value) => {
             var _a;
-            const date = getSpecialDate(value === null || value === void 0 ? void 0 : value.dates);
+            const date = (0, dateString_1.default)(value === null || value === void 0 ? void 0 : value.dates);
             const finalIngredientListFromMealPlan = (_a = value === null || value === void 0 ? void 0 : value.recipes) === null || _a === void 0 ? void 0 : _a.map((value, index) => {
                 var _a, _b;
                 return {

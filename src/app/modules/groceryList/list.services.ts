@@ -1,25 +1,5 @@
+import getSpecialDate from "../../helpers/dateString"
 import { MealPlan } from "../mealPlan/plan.model"
-
-function getSpecialDate(dates: string[]): string {
-    
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayStr = today.toLocaleDateString();
-
-  if (dates.includes(todayStr)) {
-    // console.log(todayStr)
-    return todayStr;
-  }
-
-  const minDate = new Date(
-    Math.min(...dates.map(dateStr => new Date(dateStr).getTime()))
-  );
-  minDate.setDate(minDate.getDate() - 1);
-  return minDate.toLocaleDateString();
-}
-
-
-
 
 
 
