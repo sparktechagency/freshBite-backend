@@ -34,7 +34,9 @@ export type TrequiredSkill = {
 export type Trating_reviews = {
   rating: number,
   review: string,
-  user_id : Types.ObjectId
+  user_id : Types.ObjectId,
+  id:Number
+  isDeleted:boolean
 }
 
 

@@ -49,7 +49,9 @@ const instructionSchema = new Schema<Tinstruction>({
 const ratingSchema = new Schema<Trating_reviews>({
   rating: { type: Number, required: true },
   review: { type: String, required: true },
-  user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true }
+  user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+  id: { type: Number, required: true, unique: true },
+  isDeleted: { type: Boolean, default: false }
 });
 
 
@@ -68,7 +70,7 @@ const recipeSchema = new Schema<Trecipe>(
     preparation: { type: preparationSchema, required: [true, "preparation is required"], },
     required_Skill: { type: [requiredSkillSchema], required: [true, "skill feild is required"], },
     instruction: { type: [instructionSchema], required: [true, "instruction is required"], },
-    rating_reviews: { type: [ratingSchema], default:[], },
+    rating_reviews: { type: [ratingSchema], default: [], },
     tag: { type: [String], required: true },
     isDeleted: { type: Boolean, default: false },
   },

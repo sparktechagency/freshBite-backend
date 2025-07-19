@@ -2,6 +2,9 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import catchAsync from "../../lib/catchAsync";
 import Recipemodel from "./recipe.model";
 import status from "http-status";
+import { addReviewRatingService, deleteReviewServices } from "./recipe.service";
+import mongoose from "mongoose";
+
 
 
 
@@ -42,18 +45,7 @@ export const getRecipeByIdController: RequestHandler = catchAsync(async (req, re
 
 export const addRatingReviewsController: RequestHandler = catchAsync(async (req, res, next) => {
 
-  if (!req.params?.id) {
-    throw new Error('recipe id is required')
-  }
-
-  const addingRevies = await Recipemodel.findByIdAndUpdate(req.params?.id,
-    { $addToSet: { rating_reviews: req.body } },
-    { new: true, runValidators: true })
-
-  if (!addingRevies) {
-    throw new Error('internal server error')
-  }
-
+  const addingRevies = await addReviewRatingService(req?.params?.id, req.body)
   res.status(status.OK).json({
     success: true,
     code: status.OK,
@@ -63,15 +55,17 @@ export const addRatingReviewsController: RequestHandler = catchAsync(async (req,
 
 })
 
+export const deleteReviewsController: RequestHandler = catchAsync(async (req, res, next) => {
 
-// export const updateRatingReviewsController: RequestHandler = async (req, res, next) => {
 
-//   //its not working bcz rating obj is aaray of object
-//   const updating = await Recipemodel.findByIdAndUpdate(req?.query?.id, req.body, { new: true, runValidators: true })
-//   res.status(status.OK).json({
-//     success: true,
-//     code: status.OK,
-//     message: "added successfully",
-//     data: updating
-//   });
-// }
+  const deleting = await deleteReviewServices(req)
+
+  res.status(status.OK).json({
+    success: true,
+    code: status.OK,
+    message: "reviews deleted successfully",
+    data: deleting
+  });
+
+})
+

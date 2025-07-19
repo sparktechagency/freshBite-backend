@@ -65,7 +65,9 @@ const instructionSchema = new mongoose_1.Schema({
 const ratingSchema = new mongoose_1.Schema({
     rating: { type: Number, required: true },
     review: { type: String, required: true },
-    user_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true }
+    user_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true },
+    id: { type: Number, required: true, unique: true },
+    isDeleted: { type: Boolean, default: false }
 });
 const recipeSchema = new mongoose_1.Schema({
     recipe_Name: { type: String, required: [true, "recipe name is required"], trim: true, },
