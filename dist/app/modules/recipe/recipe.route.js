@@ -7,3 +7,5 @@ exports.recipeRoutes = (0, express_1.Router)();
 exports.recipeRoutes.post("/create-recipe", recipe_controller_1.createRecipeController);
 exports.recipeRoutes.get('/get-recipe', recipe_controller_1.getRecipeController);
 exports.recipeRoutes.get("/get-recipe-by-id/:id", recipe_controller_1.getRecipeByIdController);
+exports.recipeRoutes.patch('/add-reviews/:id', recipe_controller_1.addRatingReviewsController);
+// recipeRoutes.patch('/update-rating-reviews', updateRatingReviewsController)

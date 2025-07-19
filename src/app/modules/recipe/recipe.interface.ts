@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 
 export interface Preparation {
   totalTime: string;
@@ -29,9 +31,10 @@ export type TrequiredSkill = {
   description: string
 };
 
-export type Trating = {
+export type Trating_reviews = {
   rating: number,
-  review: string
+  review: string,
+  user_id : Types.ObjectId
 }
 
 
@@ -50,7 +53,7 @@ export interface Trecipe {
   preparation: Preparation;
   required_Skill: TrequiredSkill[];
   instruction: [Tinstruction];
-  rating: [Trating];
+  rating_reviews: [Trating_reviews];
   tag: string[];
   isDeleted: boolean;
 }

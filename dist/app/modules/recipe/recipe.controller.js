@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRecipeByIdController = exports.getRecipeController = exports.createRecipeController = void 0;
+exports.addRatingReviewsController = exports.getRecipeByIdController = exports.getRecipeController = exports.createRecipeController = void 0;
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
 const recipe_model_1 = __importDefault(require("./recipe.model"));
 const http_status_1 = __importDefault(require("http-status"));
@@ -44,3 +44,29 @@ exports.getRecipeByIdController = (0, catchAsync_1.default)((req, res, next) => 
         data: findRecipe
     });
 }));
+exports.addRatingReviewsController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    if (!((_a = req.params) === null || _a === void 0 ? void 0 : _a.id)) {
+        throw new Error('recipe id is required');
+    }
+    const addingRevies = yield recipe_model_1.default.findByIdAndUpdate((_b = req.params) === null || _b === void 0 ? void 0 : _b.id, { $addToSet: { rating_reviews: req.body } }, { new: true, runValidators: true });
+    if (!addingRevies) {
+        throw new Error('internal server error');
+    }
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        code: http_status_1.default.OK,
+        message: "added successfully",
+        data: addingRevies
+    });
+}));
+// export const updateRatingReviewsController: RequestHandler = async (req, res, next) => {
+//   //its not working bcz rating obj is aaray of object
+//   const updating = await Recipemodel.findByIdAndUpdate(req?.query?.id, req.body, { new: true, runValidators: true })
+//   res.status(status.OK).json({
+//     success: true,
+//     code: status.OK,
+//     message: "added successfully",
+//     data: updating
+//   });
+// }

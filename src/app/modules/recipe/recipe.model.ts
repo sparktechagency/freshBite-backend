@@ -4,7 +4,7 @@ import {
   Tingredient,
   Tinstruction,
   TnutritionValue,
-  Trating,
+  Trating_reviews,
   Trecipe,
   TrequiredSkill,
 } from "./recipe.interface";
@@ -13,7 +13,7 @@ import {
 export const ingredientSchema = new Schema<Tingredient>({
   name: { type: String, required: true },
   quantity: { type: String, required: true },
-  unit: { type: String, enum: { values: ['tbsp', 'tsp', 'can','large','small', 'medium', 'cup', 'kg', 'gm', 'mg'], message: "{VALUE} is not a valid unit" }, required: true }
+  unit: { type: String, enum: { values: ['tbsp', 'tsp', 'can', 'large', 'small', 'medium', 'cup', 'kg', 'gm', 'mg'], message: "{VALUE} is not a valid unit" }, required: true }
 });
 
 
@@ -21,7 +21,7 @@ export const ingredientSchema = new Schema<Tingredient>({
 const nutritionValueSchema = new Schema<TnutritionValue>({
   nutrient: { type: String, required: true },
   amount: { type: String, required: true },
-  unit: { type: String, enum: { values: ['gm', 'mg','kcal'], message: "{VALUE} is not a valid unit" }, required: true }
+  unit: { type: String, enum: { values: ['gm', 'mg', 'kcal'], message: "{VALUE} is not a valid unit" }, required: true }
 });
 
 
@@ -46,12 +46,11 @@ const instructionSchema = new Schema<Tinstruction>({
 })
 
 
-const ratingSchema = new Schema<Trating>({
+const ratingSchema = new Schema<Trating_reviews>({
   rating: { type: Number, required: true },
   review: { type: String, required: true },
+  user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true }
 });
-
-
 
 
 const recipeSchema = new Schema<Trecipe>(
@@ -69,7 +68,7 @@ const recipeSchema = new Schema<Trecipe>(
     preparation: { type: preparationSchema, required: [true, "preparation is required"], },
     required_Skill: { type: [requiredSkillSchema], required: [true, "skill feild is required"], },
     instruction: { type: [instructionSchema], required: [true, "instruction is required"], },
-    rating: { type: [ratingSchema], required: [true, "text instruction is required"], },
+    rating_reviews: { type: [ratingSchema], default:[], },
     tag: { type: [String], required: true },
     isDeleted: { type: Boolean, default: false },
   },

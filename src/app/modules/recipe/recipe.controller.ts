@@ -28,7 +28,7 @@ export const getRecipeController = catchAsync(async (req: Request, res: Response
 })
 
 
-export const getRecipeByIdController:RequestHandler = catchAsync(async (req,res,next)=>{
+export const getRecipeByIdController: RequestHandler = catchAsync(async (req, res, next) => {
   const findRecipe = await Recipemodel.findById(req?.params?.id)
   res.status(status.OK).json({
     success: true,
@@ -37,3 +37,41 @@ export const getRecipeByIdController:RequestHandler = catchAsync(async (req,res,
     data: findRecipe
   });
 })
+
+
+
+export const addRatingReviewsController: RequestHandler = catchAsync(async (req, res, next) => {
+
+  if (!req.params?.id) {
+    throw new Error('recipe id is required')
+  }
+
+  const addingRevies = await Recipemodel.findByIdAndUpdate(req.params?.id,
+    { $addToSet: { rating_reviews: req.body } },
+    { new: true, runValidators: true })
+
+  if (!addingRevies) {
+    throw new Error('internal server error')
+  }
+
+  res.status(status.OK).json({
+    success: true,
+    code: status.OK,
+    message: "added successfully",
+    data: addingRevies
+  });
+
+})
+
+
+// export const updateRatingReviewsController: RequestHandler = async (req, res, next) => {
+
+//   //its not working bcz rating obj is aaray of object
+//   const updating = await Recipemodel.findByIdAndUpdate(req?.query?.id, req.body, { new: true, runValidators: true })
+//   res.status(status.OK).json({
+//     success: true,
+//     code: status.OK,
+//     message: "added successfully",
+//     data: updating
+//   });
+// }

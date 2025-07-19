@@ -18,6 +18,7 @@ export const createListController: RequestHandler = catchAsync(async (req, res, 
 
 
 
+
 export const getIngredientFromMealPlan: RequestHandler = catchAsync(async (req, res, next) => {
     const manupulatingIngredient = await getIngredientServices(req?.query?.email as string)
 

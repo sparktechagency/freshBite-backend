@@ -25,7 +25,7 @@ const getIngredientServices = (email) => __awaiter(void 0, void 0, void 0, funct
             const finalIngredientListFromMealPlan = (_a = value === null || value === void 0 ? void 0 : value.recipes) === null || _a === void 0 ? void 0 : _a.map((value, index) => {
                 var _a, _b;
                 return {
-                    name: (_a = value === null || value === void 0 ? void 0 : value.recipe_id) === null || _a === void 0 ? void 0 : _a.recipe_Name,
+                    recipe_name: (_a = value === null || value === void 0 ? void 0 : value.recipe_id) === null || _a === void 0 ? void 0 : _a.recipe_Name,
                     shopping_date: date,
                     ingredients: (_b = value === null || value === void 0 ? void 0 : value.recipe_id) === null || _b === void 0 ? void 0 : _b.ingredients
                 };

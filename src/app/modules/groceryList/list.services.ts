@@ -16,7 +16,7 @@ export const getIngredientServices = async (email: string) => {
             const date = getSpecialDate(value?.dates);
             const finalIngredientListFromMealPlan = value?.recipes?.map((value: any, index: number) => {
                 return {
-                    name: value?.recipe_id?.recipe_Name,
+                    recipe_name: value?.recipe_id?.recipe_Name,
                     shopping_date: date,
                     ingredients: value?.recipe_id?.ingredients
                 }
