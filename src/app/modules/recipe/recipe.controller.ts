@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import catchAsync from "../../lib/catchAsync";
 import Recipemodel from "./recipe.model";
 import status from "http-status";
-import { addReviewRatingService, deleteReviewServices } from "./recipe.service";
+import { addReviewRatingService, deleteRecipeService, deleteReviewServices } from "./recipe.service";
 import mongoose from "mongoose";
 
 
@@ -42,6 +42,16 @@ export const getRecipeByIdController: RequestHandler = catchAsync(async (req, re
 })
 
 
+export const deleteRecipeController: RequestHandler = catchAsync(async (req, res, next) => {
+  const deleting = await deleteRecipeService(req?.query?.id as string)
+  res.status(status.OK).json({
+    success: true,
+    code: status.OK,
+    message: "recipe deleted successfully",
+    data: deleting
+  });
+})
+
 
 export const addRatingReviewsController: RequestHandler = catchAsync(async (req, res, next) => {
 
@@ -56,7 +66,6 @@ export const addRatingReviewsController: RequestHandler = catchAsync(async (req,
 })
 
 export const deleteReviewsController: RequestHandler = catchAsync(async (req, res, next) => {
-
 
   const deleting = await deleteReviewServices(req)
 

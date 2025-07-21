@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { MealPlan } from "./plan.model";
 import status from "http-status";
 import catchAsync from "../../lib/catchAsync";
-import { createMealPlanServices } from "./plan.services";
+import { createMealPlanServices, updatePlanServices } from "./plan.services";
 
 
 export const createMealPlanController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -29,11 +29,8 @@ export const getMealPlanByEmailController: RequestHandler = catchAsync(async (re
 
 
 export const updatePlanController: RequestHandler = catchAsync(async (req, res, next) => {
-    const updating = await MealPlan.findByIdAndUpdate(req?.query?.id, req.body, {
-        new: true,                   
-        runValidators: true,         
-        context: 'query'
-    })
+
+    const updating = await updatePlanServices(req)
     res.status(status.OK).json({
         success: true,
         code: status.OK,

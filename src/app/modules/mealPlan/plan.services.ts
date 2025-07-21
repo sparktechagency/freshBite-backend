@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { TmealPlan } from "./plan.interface";
 import { MealPlan } from "./plan.model";
 
@@ -17,4 +18,23 @@ export const createMealPlanServices = async (payload: TmealPlan) => {
 
     const creatingPlan = await MealPlan.create(payload)
     return creatingPlan
+}
+
+
+export const updatePlanServices = async (req:Request)=> {
+const updating = await MealPlan.findByIdAndUpdate(
+        req?.query?.id,
+        req.body,
+        {
+            new: true,
+            runValidators: true,
+            context: 'query'
+        }
+    )
+
+    if(!updating){
+        throw new Error('internal server error')
+    }
+
+    return updating
 }

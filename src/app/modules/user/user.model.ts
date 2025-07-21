@@ -1,12 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 import { Tuser } from "./user.interface";
 
+
+
 const userSchema = new Schema<Tuser>({
-  name: {
-    type: String,
-    required: [true, "name is required"],
-    maxlength: [100, "name length have to within 100 charactrs"],
-  },
+
   email: {
     type: String,
     required: [true, "email is required"],
@@ -16,21 +14,18 @@ const userSchema = new Schema<Tuser>({
     ],
     unique: true,
   },
+
   role: {
     type: String,
     required: [true, "role is required"],
     enum: {
-      values: ["user", "guest", "vip", "admin"],
+      values: ["trail", "vip", "admin", "single", "family", "children"],
       message: "{VALUE} is not a valid role",
     },
   },
-  phone: {
-    type: Number,
-    required: [true, "number is required"],
-    minlength: [5, "number minimum 5 characters"],
-  },
-  password: { type: String, required: true },
+
+  password: { type: String, required: true, minlength:[6, 'password minimum 6 character'], maxlength:[30, 'password is too long'] },
   isDeleted: { type: Boolean, default: false },
-});
+},{timestamps:true})
 
 export const userModel = mongoose.model("users", userSchema);

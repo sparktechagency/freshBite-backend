@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createMealPlanServices = void 0;
+exports.updatePlanServices = exports.createMealPlanServices = void 0;
 const plan_model_1 = require("./plan.model");
 const createMealPlanServices = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const checkBefore = yield plan_model_1.MealPlan.find({
@@ -27,3 +27,16 @@ const createMealPlanServices = (payload) => __awaiter(void 0, void 0, void 0, fu
     return creatingPlan;
 });
 exports.createMealPlanServices = createMealPlanServices;
+const updatePlanServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const updating = yield plan_model_1.MealPlan.findByIdAndUpdate((_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.id, req.body, {
+        new: true,
+        runValidators: true,
+        context: 'query'
+    });
+    if (!updating) {
+        throw new Error('internal server error');
+    }
+    return updating;
+});
+exports.updatePlanServices = updatePlanServices;

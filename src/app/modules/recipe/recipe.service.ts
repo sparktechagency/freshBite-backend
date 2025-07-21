@@ -3,6 +3,20 @@ import { Trating_reviews } from './recipe.interface';
 import Recipemodel from "./recipe.model"
 
 
+export const deleteRecipeService = async (id: string) => {
+  const deleting = await Recipemodel.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true, runValidators: true }
+  )
+
+  if (!deleting) {
+    throw new Error('internal server Error')
+  }
+  return deleting
+}
+
+
 
 
 export const addReviewRatingService = async (id: string, payload: Trating_reviews) => {
@@ -11,7 +25,6 @@ export const addReviewRatingService = async (id: string, payload: Trating_review
     ...payload,
     id: Math.random().toString().split('.')[1]
   }
-
   const checkBefore = await Recipemodel.find({
     $and: [
       { 'rating_reviews.rating': payload?.rating },
@@ -33,7 +46,6 @@ export const addReviewRatingService = async (id: string, payload: Trating_review
   }
 
   return addingReviews
-
 }
 
 

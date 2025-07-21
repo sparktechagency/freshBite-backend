@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReviewsController = exports.addRatingReviewsController = exports.getRecipeByIdController = exports.getRecipeController = exports.createRecipeController = void 0;
+exports.deleteReviewsController = exports.addRatingReviewsController = exports.deleteRecipeController = exports.getRecipeByIdController = exports.getRecipeController = exports.createRecipeController = void 0;
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
 const recipe_model_1 = __importDefault(require("./recipe.model"));
 const http_status_1 = __importDefault(require("http-status"));
@@ -43,6 +43,16 @@ exports.getRecipeByIdController = (0, catchAsync_1.default)((req, res, next) => 
         code: http_status_1.default.OK,
         message: "recipe retrive successfully",
         data: findRecipe
+    });
+}));
+exports.deleteRecipeController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const deleting = yield (0, recipe_service_1.deleteRecipeService)((_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.id);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        code: http_status_1.default.OK,
+        message: "recipe deleted successfully",
+        data: deleting
     });
 }));
 exports.addRatingReviewsController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

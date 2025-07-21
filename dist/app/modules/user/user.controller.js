@@ -12,22 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gertSingleUserController = exports.createUserController = void 0;
+exports.getSingleUserController = exports.createTrailUserController = void 0;
 const user_model_1 = require("./user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
-exports.createUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const createUser = yield user_model_1.userModel.create(req.body);
+const user_service_1 = require("./user.service");
+exports.createTrailUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const creating = yield (0, user_service_1.trailUserServices)(req === null || req === void 0 ? void 0 : req.body);
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,
         message: "user created successfully",
         data: {
-            attributes: createUser,
+            attributes: creating,
         },
     });
 }));
-exports.gertSingleUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSingleUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.userModel.findOne({ email: req.query.email });
     res.status(http_status_1.default.OK).json({
         success: true,

@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { createUserController, gertSingleUserController } from "./user.controller";
+import { createTrailUserController, getSingleUserController } from "./user.controller";
 import { authentication } from "../../middleware/authentication";
 
 
 export const userRouter = Router()
 
-userRouter.post('/create-user', createUserController)
+userRouter.post('/create-trail-user', createTrailUserController)
 
-userRouter.get('/get-single-user',authentication, gertSingleUserController)
+userRouter.get('/get-single-user',authentication, getSingleUserController)

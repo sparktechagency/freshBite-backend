@@ -12,8 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReviewServices = exports.addReviewRatingService = void 0;
+exports.deleteReviewServices = exports.addReviewRatingService = exports.deleteRecipeService = void 0;
 const recipe_model_1 = __importDefault(require("./recipe.model"));
+const deleteRecipeService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const deleting = yield recipe_model_1.default.findByIdAndUpdate(id, { isDeleted: true }, { new: true, runValidators: true });
+    if (!deleting) {
+        throw new Error('internal server Error');
+    }
+    return deleting;
+});
+exports.deleteRecipeService = deleteRecipeService;
 const addReviewRatingService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const data = Object.assign(Object.assign({}, payload), { id: Math.random().toString().split('.')[1] });
     const checkBefore = yield recipe_model_1.default.find({

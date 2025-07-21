@@ -33,27 +33,25 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userModel = void 0;
+exports.trailUserModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const userSchema = new mongoose_1.Schema({
-    email: {
+const saveSchema = new mongoose_1.Schema({
+    recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
+    recipe_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'recipes', required: true }
+});
+const trailUserSchema = new mongoose_1.Schema({
+    user_id: { type: mongoose_1.Schema.Types.ObjectId, required: true },
+    full_name: {
         type: String,
-        required: [true, "email is required"],
-        match: [
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            "Please enter a valid email address",
-        ],
-        unique: true,
+        required: [true, 'full name is required'],
+        maxlength: [100, "name length have to within 100 charactrs"],
     },
-    role: {
-        type: String,
-        required: [true, "role is required"],
-        enum: {
-            values: ["trail", "vip", "admin", "single", "family", "children"],
-            message: "{VALUE} is not a valid role",
-        },
+    phone: {
+        type: Number,
+        default: 0,
+        minlength: [5, "number minimum 5 characters"],
     },
-    password: { type: String, required: true, minlength: [6, 'password minimum 6 character'], maxlength: [30, 'password is too long'] },
-    isDeleted: { type: Boolean, default: false },
-}, { timestamps: true });
-exports.userModel = mongoose_1.default.model("users", userSchema);
+    address: { type: String, maxlength: [100, 'address must be describe within 100 character'], default: '' },
+    save_recipes: { type: [saveSchema], default: [] },
+});
+exports.trailUserModel = mongoose_1.default.model("trail-users", trailUserSchema);

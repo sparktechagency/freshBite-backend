@@ -37,12 +37,7 @@ exports.getMealPlanByEmailController = (0, catchAsync_1.default)((req, res, next
     });
 }));
 exports.updatePlanController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const updating = yield plan_model_1.MealPlan.findByIdAndUpdate((_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.id, req.body, {
-        new: true,
-        runValidators: true,
-        context: 'query'
-    });
+    const updating = yield (0, plan_services_1.updatePlanServices)(req);
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,
