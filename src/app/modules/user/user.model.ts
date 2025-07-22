@@ -1,9 +1,21 @@
 import mongoose, { Schema } from "mongoose";
-import { Tuser } from "./user.interface";
+import { Tsaves, TUser } from "./user.interface";
 
 
 
-const userSchema = new Schema<Tuser>({
+
+const saveSchema = new Schema<Tsaves>({
+  recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
+  recipe_id: { type: Schema.Types.ObjectId, ref: 'recipes', required: true }
+
+})
+
+const UserSchema = new Schema<TUser>({
+  full_name: {
+    type: String,
+    required: [true, 'full name is required'],
+    maxlength: [100, "name length have to within 100 charactrs"],
+  },
 
   email: {
     type: String,
@@ -24,8 +36,23 @@ const userSchema = new Schema<Tuser>({
     },
   },
 
-  password: { type: String, required: true, minlength:[6, 'password minimum 6 character'], maxlength:[30, 'password is too long'] },
-  isDeleted: { type: Boolean, default: false },
-},{timestamps:true})
+  password: {
+    type: String,
+    required: [true, "role is required"],
+    minlength: [6, 'password minimum 6 character'],
+    maxlength: [30, 'password is too long']
+  },
+  parent_id: { type: Schema.Types.ObjectId, ref: 'users' },
 
-export const userModel = mongoose.model("users", userSchema);
+  phone: {
+    type: Number,
+    required: [true, 'phone number is required'],
+    minlength: [5, "number minimum 5 characters"],
+  },
+
+  address: { type: String, maxlength: [100, 'address must be describe within 100 character'], default: '' },
+  save_recipes: { type: [saveSchema], default: [] },
+  isDeleted: { type: Boolean, default: false },
+}, { timestamps: true });
+
+export const userModel = mongoose.model("users", UserSchema);

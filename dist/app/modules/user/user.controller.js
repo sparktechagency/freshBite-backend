@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleUserController = exports.createTrailUserController = void 0;
+exports.updateUserController = exports.getSingleUserController = exports.createchildUserController = exports.createTrailUserController = void 0;
 const user_model_1 = require("./user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
@@ -23,6 +23,15 @@ exports.createTrailUserController = (0, catchAsync_1.default)((req, res, next) =
         success: true,
         code: http_status_1.default.OK,
         message: "user created successfully",
+        data: creating,
+    });
+}));
+exports.createchildUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const creating = yield (0, user_service_1.childUserServices)(req === null || req === void 0 ? void 0 : req.body);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        code: http_status_1.default.OK,
+        message: "child created successfully",
         data: {
             attributes: creating,
         },
@@ -34,8 +43,16 @@ exports.getSingleUserController = (0, catchAsync_1.default)((req, res, next) => 
         success: true,
         code: http_status_1.default.OK,
         message: "user retrive successfully",
-        data: {
-            attributes: user,
-        },
+        data: user
+    });
+}));
+exports.updateUserController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const updatedUser = yield (0, user_service_1.updateUserServices)(userId, req.body);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        code: http_status_1.default.OK,
+        message: "user updated successfully",
+        data: updatedUser
     });
 }));

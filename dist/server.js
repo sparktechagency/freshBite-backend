@@ -47,7 +47,8 @@ app.use('/api/v1', routes_1.router);
 // });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield mongoose_1.default.connect("mongodb://localhost:27017/freshBite");
+        // await mongoose.connect("mongodb://localhost:27017/freshBite");
+        yield mongoose_1.default.connect("mongodb+srv://snapSale:snapSale1122@cluster0.oqkryfl.mongodb.net/freshBite?retryWrites=true&w=majority&appName=Cluster0");
         app.listen(config_1.envData.port, () => {
             console.log(`server is run on ${config_1.envData.port}`);
         });

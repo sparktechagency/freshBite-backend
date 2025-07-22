@@ -1,48 +1,57 @@
-import mongoose from "mongoose";
-import { TtrailUser } from "../role/trail/trail.interface";
-import { Tuser } from "./user.interface";
+import mongoose, { AnyArray } from "mongoose";
 import { userModel } from "./user.model";
-import { trailUserModel } from "../role/trail/trail.model";
+import { TUser } from "./user.interface";
 
 
 
 
-export const trailUserServices = async (payload: TtrailUser) => {
 
-    const session = await mongoose.startSession()
+export const trailUserServices = async (payload: Partial<TUser>) => {
 
-    const userData: Partial<Tuser> = {
-        email: payload?.email,
-        password: payload?.password,
-        role: "trail",
-        isDeleted: false
+    payload.role = 'trail';
+    const creatingTrailUser = await userModel.create(payload);
+    if (!creatingTrailUser) {
+        throw new Error('something went wrong')
     }
 
-    try {
-        session.startTransaction()
-        const creatingUser = await userModel.create([userData], { session })
-       
-        if (!creatingUser.length) {
-            throw new Error('something went wrong')
-        }
+    return creatingTrailUser;
 
-        payload.user_id = creatingUser[0]?._id;
-
-        const creatingTrailUser = await trailUserModel.create([payload], { session })
-        if (!creatingTrailUser?.length) {
-            throw new Error('something went wrong')
-        }
+}
 
 
-        await session.commitTransaction()
-        await session.endSession()
-        return creatingTrailUser
+export const childUserServices = async (payload:Partial<TUser>) => {
 
-    } catch (err: any) {
-        await session.abortTransaction()
-        await session.endSession()
-        throw new Error(err)
+    if (!payload.parent_id) {
+        throw new Error('parent_id is required for child user')
+    }
+   
+    payload.role = 'children';
+    payload.full_name = 'child  account'
+    payload.phone = 0;
+    const creatingChildUser = await userModel.create(payload);
+    if (!creatingChildUser) {
+        throw new Error('something went wrong')
     }
 
+    return creatingChildUser;
 
+}
+
+
+
+export const updateUserServices = async (userId: string, payload: Partial<TUser>) => {
+    const updating = await userModel.findByIdAndUpdate(
+        userId,
+        payload,
+        {
+            new: true,
+            runValidators: true,
+            context: 'query'
+        })
+
+    if (!updating) {
+        throw new Error('User not found')
+    }
+
+    return updating
 }

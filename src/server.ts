@@ -45,7 +45,8 @@ app.use('/api/v1', router)
 
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/freshBite");
+  // await mongoose.connect("mongodb://localhost:27017/freshBite");
+  await mongoose.connect("mongodb+srv://snapSale:snapSale1122@cluster0.oqkryfl.mongodb.net/freshBite?retryWrites=true&w=majority&appName=Cluster0");
   
   app.listen(envData.port, () => {
     console.log(`server is run on ${envData.port}`);

@@ -33,49 +33,33 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userModel = void 0;
+exports.childUserModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const saveSchema = new mongoose_1.Schema({
     recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
     recipe_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'recipes', required: true }
 });
-const UserSchema = new mongoose_1.Schema({
+const childUserSchema = new mongoose_1.Schema({
+    user_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true },
+    parent_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'trail-users', required: true },
     full_name: {
         type: String,
-        required: [true, 'full name is required'],
         maxlength: [100, "name length have to within 100 charactrs"],
+        default: '',
     },
-    email: {
-        type: String,
-        required: [true, "email is required"],
-        match: [
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            "Please enter a valid email address",
-        ],
-        unique: true,
-    },
-    role: {
-        type: String,
-        required: [true, "role is required"],
-        enum: {
-            values: ["trail", "vip", "admin", "single", "family", "children"],
-            message: "{VALUE} is not a valid role",
-        },
-    },
-    password: {
-        type: String,
-        required: [true, "role is required"],
-        minlength: [6, 'password minimum 6 character'],
-        maxlength: [30, 'password is too long']
-    },
-    parent_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users' },
     phone: {
         type: Number,
-        required: [true, 'phone number is required'],
+        default: 0,
         minlength: [5, "number minimum 5 characters"],
     },
-    address: { type: String, maxlength: [100, 'address must be describe within 100 character'], default: '' },
-    save_recipes: { type: [saveSchema], default: [] },
-    isDeleted: { type: Boolean, default: false },
-}, { timestamps: true });
-exports.userModel = mongoose_1.default.model("users", UserSchema);
+    address: {
+        type: String,
+        maxlength: [100, 'address must be describe within 100 character'],
+        default: ''
+    },
+    save_recipes: {
+        type: [saveSchema],
+        default: []
+    },
+});
+exports.childUserModel = mongoose_1.default.model("child-users", childUserSchema);
