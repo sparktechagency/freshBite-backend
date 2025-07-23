@@ -27,7 +27,7 @@ exports.createRecipeController = (0, catchAsync_1.default)((req, res, next) => _
     });
 }));
 exports.getRecipeController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const getRecipeData = yield recipe_model_1.default.find().select('recipe_Name coverImage').sort('-createdAt');
+    const getRecipeData = yield (0, recipe_service_1.getAllRecipeServices)(req);
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,
@@ -38,6 +38,9 @@ exports.getRecipeController = (0, catchAsync_1.default)((req, res, next) => __aw
 exports.getRecipeByIdController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const findRecipe = yield recipe_model_1.default.findById((_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.id);
+    if (!findRecipe) {
+        throw new Error("Recipe not found");
+    }
     res.status(http_status_1.default.OK).json({
         success: true,
         code: http_status_1.default.OK,

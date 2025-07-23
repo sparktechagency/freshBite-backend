@@ -2,13 +2,13 @@ import { Request } from "express";
 import { TmealPlan } from "./plan.interface";
 import { MealPlan } from "./plan.model";
 
-export const createMealPlanServices = async (payload: TmealPlan) => {
+export const createMealPlanServices = async (req:Request) => {
     const checkBefore = await MealPlan.find({
         $and: [
-            { title: payload?.title },
-            { description: payload?.description },
-            { meal_time: payload?.meal_time },
-            { portion: payload?.portion }
+            { title: req?.body?.title },
+            { description: req?.body?.description },
+            { meal_time: req?.body?.meal_time },
+            { portion: req?.body?.portion }
         ]
     }).select('title')
 
@@ -16,7 +16,7 @@ export const createMealPlanServices = async (payload: TmealPlan) => {
         throw new Error('this plan already exist')
     }
 
-    const creatingPlan = await MealPlan.create(payload)
+    const creatingPlan = await MealPlan.create({...req.body, userEmail: req?.user?.email } as TmealPlan)
     return creatingPlan
 }
 
@@ -33,7 +33,7 @@ const updating = await MealPlan.findByIdAndUpdate(
     )
 
     if(!updating){
-        throw new Error('internal server error')
+        throw new Error('meal plan not found')
     }
 
     return updating

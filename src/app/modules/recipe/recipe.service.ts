@@ -19,6 +19,31 @@ export const deleteRecipeService = async (id: string) => {
 
 
 
+export const getAllRecipeServices = async (req: Request) => {
+
+  const limit = req.query?.limit ? parseInt(req.query?.limit as string) : 2;
+  const page = req.query?.page ? parseInt(req.query?.page as string) : 1;
+  const skip = (page - 1) * limit;
+
+
+  const getRecipeData = await Recipemodel.find({ isDeleted: { $eq: false } })
+    .skip(skip)
+    .limit(limit)
+    .sort({ createdAt: -1 })
+    .select('recipe_Name')
+    .lean()
+
+  if (!getRecipeData) {
+    throw new Error('internal server error')
+  }
+
+  return getRecipeData
+
+}
+
+
+
+
 export const addReviewRatingService = async (id: string, payload: Trating_reviews) => {
 
   const data = {

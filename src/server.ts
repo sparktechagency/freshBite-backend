@@ -43,6 +43,11 @@ app.use('/api/v1', router)
 //   socket.emit('message','hello message')
 // });
 
+// const crypto = require('crypto');
+// const jwtSecret = crypto.randomBytes(32).toString('hex');
+// console.log(jwtSecret)
+
+
 
 async function main() {
   // await mongoose.connect("mongodb://localhost:27017/freshBite");

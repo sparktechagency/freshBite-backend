@@ -12,5 +12,6 @@ router.use('/user', userRouter)
 router.use('/recipe', recipeRoutes)
 router.use('/meal',mealRouter)
 router.use('/list',listRoute)
+router.use('/auth', signInRoute)
 
 

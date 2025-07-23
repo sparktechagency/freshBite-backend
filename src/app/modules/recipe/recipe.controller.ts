@@ -2,8 +2,8 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import catchAsync from "../../lib/catchAsync";
 import Recipemodel from "./recipe.model";
 import status from "http-status";
-import { addReviewRatingService, deleteRecipeService, deleteReviewServices } from "./recipe.service";
-import mongoose from "mongoose";
+import { addReviewRatingService, deleteRecipeService, deleteReviewServices, getAllRecipeServices } from "./recipe.service";
+
 
 
 
@@ -21,7 +21,7 @@ export const createRecipeController = catchAsync(async (req: Request, res: Respo
 
 
 export const getRecipeController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const getRecipeData = await Recipemodel.find().select('recipe_Name coverImage').sort('-createdAt')
+  const getRecipeData = await getAllRecipeServices(req)
   res.status(status.OK).json({
     success: true,
     code: status.OK,
@@ -33,6 +33,10 @@ export const getRecipeController = catchAsync(async (req: Request, res: Response
 
 export const getRecipeByIdController: RequestHandler = catchAsync(async (req, res, next) => {
   const findRecipe = await Recipemodel.findById(req?.params?.id)
+  if(!findRecipe){
+    throw new Error("Recipe not found");
+  }
+
   res.status(status.OK).json({
     success: true,
     code: status.OK,

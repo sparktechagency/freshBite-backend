@@ -11,19 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePlanServices = exports.createMealPlanServices = void 0;
 const plan_model_1 = require("./plan.model");
-const createMealPlanServices = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createMealPlanServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e;
     const checkBefore = yield plan_model_1.MealPlan.find({
         $and: [
-            { title: payload === null || payload === void 0 ? void 0 : payload.title },
-            { description: payload === null || payload === void 0 ? void 0 : payload.description },
-            { meal_time: payload === null || payload === void 0 ? void 0 : payload.meal_time },
-            { portion: payload === null || payload === void 0 ? void 0 : payload.portion }
+            { title: (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.title },
+            { description: (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.description },
+            { meal_time: (_c = req === null || req === void 0 ? void 0 : req.body) === null || _c === void 0 ? void 0 : _c.meal_time },
+            { portion: (_d = req === null || req === void 0 ? void 0 : req.body) === null || _d === void 0 ? void 0 : _d.portion }
         ]
     }).select('title');
     if (checkBefore.length) {
         throw new Error('this plan already exist');
     }
-    const creatingPlan = yield plan_model_1.MealPlan.create(payload);
+    const creatingPlan = yield plan_model_1.MealPlan.create(Object.assign(Object.assign({}, req.body), { userEmail: (_e = req === null || req === void 0 ? void 0 : req.user) === null || _e === void 0 ? void 0 : _e.email }));
     return creatingPlan;
 });
 exports.createMealPlanServices = createMealPlanServices;
@@ -35,7 +36,7 @@ const updatePlanServices = (req) => __awaiter(void 0, void 0, void 0, function* 
         context: 'query'
     });
     if (!updating) {
-        throw new Error('internal server error');
+        throw new Error('meal plan not found');
     }
     return updating;
 });

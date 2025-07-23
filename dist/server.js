@@ -45,6 +45,9 @@ app.use('/api/v1', routes_1.router);
 //   });
 //   socket.emit('message','hello message')
 // });
+// const crypto = require('crypto');
+// const jwtSecret = crypto.randomBytes(32).toString('hex');
+// console.log(jwtSecret)
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         // await mongoose.connect("mongodb://localhost:27017/freshBite");

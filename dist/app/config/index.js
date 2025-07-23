@@ -10,4 +10,5 @@ dotenv_1.default.config({ path: path_1.default.join(process.cwd(), ".env") });
 exports.envData = {
     port: process.env.PORT,
     mode: process.env.NODE_ENV,
+    secret: process.env.SECRET_KEY,
 };

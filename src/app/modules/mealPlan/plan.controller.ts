@@ -6,7 +6,7 @@ import { createMealPlanServices, updatePlanServices } from "./plan.services";
 
 
 export const createMealPlanController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const creatingPlan = await createMealPlanServices(req?.body)
+    const creatingPlan = await createMealPlanServices(req)
     res.status(status.OK).json({
         success: true,
         code: status.OK,
@@ -17,7 +17,7 @@ export const createMealPlanController = catchAsync(async (req: Request, res: Res
 
 
 export const getMealPlanByEmailController: RequestHandler = catchAsync(async (req, res, next) => {
-    const findingByEmail = await MealPlan.find({ userEmail: req?.query?.email }).select('-recipes -isDelated -description')
+    const findingByEmail = await MealPlan.find({ userEmail: req?.user?.email }).select('-recipes -isDelated -description')
     res.status(status.OK).json({
         success: true,
         code: status.OK,
