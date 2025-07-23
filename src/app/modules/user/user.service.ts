@@ -14,6 +14,7 @@ export const trailUserServices = async (payload: Partial<TUser>) => {
     }
 
     payload.role = 'trail';
+    payload.child_Accounts = [];
     const creatingTrailUser = await userModel.create(payload);
     if (!creatingTrailUser) {
         throw new Error('something went wrong')
@@ -46,7 +47,6 @@ export const childUserServices = async (req: Request) => {
         throw new Error("this child user already exists");
     }
 
-
     req.body.role = 'children';
     req.body.full_name = 'child  account'
     req.body.phone = 0;
@@ -54,6 +54,19 @@ export const childUserServices = async (req: Request) => {
     const creatingChildUser = await userModel.create(req.body);
     if (!creatingChildUser) {
         throw new Error('something went wrong')
+    }
+
+    const pushingChildAccountInparent = await userModel.findByIdAndUpdate(
+        req.body?.parent_id,
+        { $addToSet: { child_Accounts: { name: 'child account', userId: creatingChildUser._id } } },
+        {
+            new: true,
+            runValidators: true,
+            context: 'query'
+        }
+    )
+    if (!pushingChildAccountInparent) {
+        throw new Error('something went wrong while create child account')
     }
 
     return creatingChildUser
@@ -74,6 +87,7 @@ export const vipUserServices = async (req: Request) => {
     }
 
     req.body.role = 'vip';
+    //req.body.child_Accounts = [];
     const creatingVipUser = await userModel.create(req?.body);
     if (!creatingVipUser) {
         throw new Error('something went wrong')

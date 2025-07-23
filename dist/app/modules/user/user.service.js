@@ -22,6 +22,7 @@ const trailUserServices = (payload) => __awaiter(void 0, void 0, void 0, functio
         throw new Error('User already exists');
     }
     payload.role = 'trail';
+    payload.child_Accounts = [];
     const creatingTrailUser = yield user_model_1.userModel.create(payload);
     if (!creatingTrailUser) {
         throw new Error('something went wrong');
@@ -35,7 +36,7 @@ const trailUserServices = (payload) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.trailUserServices = trailUserServices;
 const childUserServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     if ((req === null || req === void 0 ? void 0 : req.user.role) !== 'family') {
         throw new Error('Unauthorized access');
     }
@@ -50,6 +51,14 @@ const childUserServices = (req) => __awaiter(void 0, void 0, void 0, function* (
     if (!creatingChildUser) {
         throw new Error('something went wrong');
     }
+    const pushingChildAccountInparent = yield user_model_1.userModel.findByIdAndUpdate((_b = req.body) === null || _b === void 0 ? void 0 : _b.parent_id, { $addToSet: { child_Accounts: { name: 'child account', userId: creatingChildUser._id } } }, {
+        new: true,
+        runValidators: true,
+        context: 'query'
+    });
+    if (!pushingChildAccountInparent) {
+        throw new Error('something went wrong while create child account');
+    }
     return creatingChildUser;
 });
 exports.childUserServices = childUserServices;
@@ -62,6 +71,7 @@ const vipUserServices = (req) => __awaiter(void 0, void 0, void 0, function* () 
         throw new Error('User already exists');
     }
     req.body.role = 'vip';
+    //req.body.child_Accounts = [];
     const creatingVipUser = yield user_model_1.userModel.create(req === null || req === void 0 ? void 0 : req.body);
     if (!creatingVipUser) {
         throw new Error('something went wrong');

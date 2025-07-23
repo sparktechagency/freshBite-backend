@@ -1,5 +1,6 @@
+import { de } from 'zod/dist/types/v4/locales';
 import mongoose, { Schema } from "mongoose";
-import { Tsaves, TUser } from "./user.interface";
+import { TchildAccount, Tsaves, TUser } from "./user.interface";
 
 
 
@@ -9,6 +10,15 @@ const saveSchema = new Schema<Tsaves>({
   recipe_id: { type: Schema.Types.ObjectId, ref: 'recipes', required: true }
 
 })
+const childAccountSchema = new Schema<TchildAccount>({
+  name: { type: String, required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'users', required: true }
+});
+
+
+
+
+
 
 const UserSchema = new Schema<TUser>({
   full_name: {
@@ -43,7 +53,7 @@ const UserSchema = new Schema<TUser>({
     maxlength: [30, 'password is too long']
   },
   parent_id: { type: Schema.Types.ObjectId, ref: 'users' },
-
+  child_Accounts: { type: [childAccountSchema],required: false},
   phone: {
     type: Number,
     required: [true, 'phone number is required'],

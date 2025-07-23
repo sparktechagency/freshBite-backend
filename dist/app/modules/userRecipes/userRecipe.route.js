@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRecipeRoute = void 0;
+const express_1 = require("express");
+const userRecipe_controller_1 = require("./userRecipe.controller");
+const authentication_1 = require("../../middleware/authentication");
+exports.userRecipeRoute = (0, express_1.Router)();
+exports.userRecipeRoute.post('/create-recipe', authentication_1.authentication, userRecipe_controller_1.createUserRecipeController);
+exports.userRecipeRoute.get('/get-recipes', authentication_1.authentication, userRecipe_controller_1.getUserRecipeController);
+exports.userRecipeRoute.patch('/delete-recipes', authentication_1.authentication, userRecipe_controller_1.deleteUserRecipeController);

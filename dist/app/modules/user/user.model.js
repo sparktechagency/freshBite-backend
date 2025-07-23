@@ -39,6 +39,10 @@ const saveSchema = new mongoose_1.Schema({
     recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
     recipe_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'recipes', required: true }
 });
+const childAccountSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true }
+});
 const UserSchema = new mongoose_1.Schema({
     full_name: {
         type: String,
@@ -69,6 +73,7 @@ const UserSchema = new mongoose_1.Schema({
         maxlength: [30, 'password is too long']
     },
     parent_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users' },
+    child_Accounts: { type: [childAccountSchema], required: false },
     phone: {
         type: Number,
         required: [true, 'phone number is required'],
