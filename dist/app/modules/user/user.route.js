@@ -12,3 +12,4 @@ exports.userRouter.patch('/update-user/', authentication_1.authentication, user_
 exports.userRouter.get('/get-single-user', authentication_1.authentication, user_controller_1.getSingleUserController);
 exports.userRouter.get('/get-all-user', authentication_1.authentication, user_controller_1.getAllUserController);
 exports.userRouter.get('/my-profile', authentication_1.authentication, user_controller_1.getMyProfileController);
+exports.userRouter.patch('/add-save-recipe', authentication_1.authentication, user_controller_1.addSaveRecipeController);

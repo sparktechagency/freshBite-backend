@@ -1,5 +1,5 @@
 import { userModel } from "./user.model";
-import { TUser } from "./user.interface";
+import { Tsaves, TUser } from "./user.interface";
 import { envData } from "../../config";
 import jwt from 'jsonwebtoken';
 import { Request } from "express";
@@ -98,6 +98,19 @@ export const vipUserServices = async (req: Request) => {
 
 
 
+export const getMyProfileServices = async (req: Request) => {
+    const user = await userModel.findOne({ email: req.user.email })
+        .select("-password -isDeleted -role -createdAt -updatedAt")
+        .populate('child_Accounts.userId')
+        .populate('parent_id')
+        .populate('save_recipes.recipe_id');
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+    return user;
+}
+
 
 export const getAllUserServices = async (req: Request) => {
 
@@ -115,7 +128,7 @@ export const getAllUserServices = async (req: Request) => {
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: -1 })
-        .select("-password -isDeleted -createdAt -updatedAt -save_recipes -address")
+        .select("-password -isDeleted -createdAt -updatedAt -save_recipes -child_Accounts -address")
         .lean()
 
     if (!user) {
@@ -143,4 +156,21 @@ export const updateUserServices = async (req: Request) => {
     }
 
     return updating
+}
+
+
+
+
+export const addSaveRecipeServices = async (req: Request) => {
+    const addingRecipe = await userModel.findOneAndUpdate(
+        { email: req.user.email },
+        { $push: { save_recipes: req.body } },
+        { new: true, runValidators: true }
+    );
+    if (!addingRecipe) {
+        throw new Error("User not found or unable to add recipe");
+
+    }
+
+    return addingRecipe.save_recipes as Tsaves[];
 }

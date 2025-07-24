@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createchildUserController, createTrailUserController, createVipUserController, getAllUserController, getMyProfileController, getSingleUserController, updateUserController } from "./user.controller";
+import { addSaveRecipeController, createchildUserController, createTrailUserController, createVipUserController, getAllUserController, getMyProfileController, getSingleUserController, updateUserController } from "./user.controller";
 import { authentication } from "../../middleware/authentication";
 
 
@@ -19,3 +19,5 @@ userRouter.get('/get-single-user', authentication, getSingleUserController)
 userRouter.get('/get-all-user', authentication, getAllUserController)
 
 userRouter.get('/my-profile', authentication, getMyProfileController)
+
+userRouter.patch('/add-save-recipe', authentication, addSaveRecipeController )

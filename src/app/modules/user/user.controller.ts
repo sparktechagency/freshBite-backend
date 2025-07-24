@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { userModel } from "./user.model";
 import status from "http-status";
 import catchAsync from "../../lib/catchAsync";
-import { childUserServices, getAllUserServices, trailUserServices, updateUserServices, vipUserServices } from "./user.service";
+import { addSaveRecipeServices, childUserServices, getAllUserServices, getMyProfileServices, trailUserServices, updateUserServices, vipUserServices } from "./user.service";
+import { Tsaves } from "./user.interface";
 
 
 
@@ -35,7 +36,7 @@ export const createchildUserController = catchAsync(async (req: Request, res: Re
 
 export const createVipUserController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
- 
+
   const createdUser = await vipUserServices(req)
   res.status(status.OK).json({
     success: true,
@@ -49,7 +50,7 @@ export const createVipUserController = catchAsync(async (req: Request, res: Resp
 
 
 export const getSingleUserController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await userModel.findOne({ email: req.query.email }).populate("parent_id").select("-password -isDeleted -role -createdAt -updatedAt");
+  const user = await userModel.findOne({ email: req.query.email }).populate("parent_id , child_Accounts.userId").select("-password -isDeleted -role -createdAt -updatedAt");
   if (!user) {
     throw new Error("User not found");
   }
@@ -66,7 +67,7 @@ export const getSingleUserController = catchAsync(async (req: Request, res: Resp
 
 export const getAllUserController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-const user = await getAllUserServices(req);
+  const user = await getAllUserServices(req);
   res.status(status.OK).json({
     success: true,
     code: status.OK,
@@ -81,10 +82,7 @@ const user = await getAllUserServices(req);
 
 export const getMyProfileController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-  const user = await userModel.findOne({ email: req.user.email }).select("-password -isDeleted -role -createdAt -updatedAt");
-  if (!user) {
-    throw new Error("User not found");
-  }
+  const user = await getMyProfileServices(req);
   res.status(status.OK).json({
     success: true,
     code: status.OK,
@@ -109,4 +107,15 @@ export const updateUserController = catchAsync(async (req: Request, res: Respons
 }
 
 )
+
+export const addSaveRecipeController: RequestHandler = catchAsync(async (req, res, next) => {
+  const addingRecipe = await addSaveRecipeServices(req);
+
+  res.status(status.OK).json({
+    success: true,
+    code: status.OK,
+    message: "Recipe added to saved recipes successfully",
+    data: addingRecipe
+  });
+});
 

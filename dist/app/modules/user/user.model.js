@@ -37,7 +37,7 @@ exports.userModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const saveSchema = new mongoose_1.Schema({
     recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
-    recipe_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'recipes', required: true }
+    recipe_id: { type: mongoose_1.Schema.Types.ObjectId, ref: 'recipes', required: [true, 'recipe id is required'] }
 });
 const childAccountSchema = new mongoose_1.Schema({
     name: { type: String, required: true },

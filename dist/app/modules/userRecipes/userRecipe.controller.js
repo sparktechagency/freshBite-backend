@@ -18,6 +18,10 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
 const userRecipe_services_1 = require("./userRecipe.services");
 exports.createUserRecipeController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.email)) {
+        throw new Error("unauthorized user");
+    }
     req.body.email = req.user.email;
     const createrecipe = yield userRecipe_model_1.default.create(req.body);
     res.status(http_status_1.default.OK).json({

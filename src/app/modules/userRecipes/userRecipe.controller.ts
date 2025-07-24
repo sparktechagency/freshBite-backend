@@ -7,7 +7,9 @@ import { deleteUserRecipeService, getUserRecipeService } from "./userRecipe.serv
 
 
 export const createUserRecipeController: RequestHandler = catchAsync(async (req, res, next) => {
-
+ if (!req.user?.email) {
+        throw new Error("unauthorized user");
+    }
     req.body.email = req.user.email;
     const createrecipe = await userRecipemodel.create(req.body);
     res.status(status.OK).json({

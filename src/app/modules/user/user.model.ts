@@ -7,7 +7,7 @@ import { TchildAccount, Tsaves, TUser } from "./user.interface";
 
 const saveSchema = new Schema<Tsaves>({
   recipe_name: { type: String, trim: true, required: [true, 'recipe_name is required'] },
-  recipe_id: { type: Schema.Types.ObjectId, ref: 'recipes', required: true }
+  recipe_id: { type: Schema.Types.ObjectId, ref: 'recipes', required: [true, 'recipe id is required'] }
 
 })
 const childAccountSchema = new Schema<TchildAccount>({

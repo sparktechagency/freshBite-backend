@@ -6,6 +6,9 @@ import { createMealPlanServices, updatePlanServices } from "./plan.services";
 
 
 export const createMealPlanController = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    if (req.user?.email !== 'admin') {
+        throw new Error("You are not authorized to create a meal plan");
+    }
     const creatingPlan = await createMealPlanServices(req)
     res.status(status.OK).json({
         success: true,
@@ -30,6 +33,9 @@ export const getMealPlanByEmailController: RequestHandler = catchAsync(async (re
 
 export const updatePlanController: RequestHandler = catchAsync(async (req, res, next) => {
 
+     if (req.user?.email !== 'admin') {
+        throw new Error("You are not authorized to update a meal plan");
+    }
     const updating = await updatePlanServices(req)
     res.status(status.OK).json({
         success: true,

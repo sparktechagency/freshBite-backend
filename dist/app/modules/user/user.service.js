@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserServices = exports.getAllUserServices = exports.vipUserServices = exports.childUserServices = exports.trailUserServices = void 0;
+exports.addSaveRecipeServices = exports.updateUserServices = exports.getAllUserServices = exports.getMyProfileServices = exports.vipUserServices = exports.childUserServices = exports.trailUserServices = void 0;
 const user_model_1 = require("./user.model");
 const config_1 = require("../../config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -79,6 +79,18 @@ const vipUserServices = (req) => __awaiter(void 0, void 0, void 0, function* () 
     return creatingVipUser;
 });
 exports.vipUserServices = vipUserServices;
+const getMyProfileServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.userModel.findOne({ email: req.user.email })
+        .select("-password -isDeleted -role -createdAt -updatedAt")
+        .populate('child_Accounts.userId')
+        .populate('parent_id')
+        .populate('save_recipes.recipe_id');
+    if (!user) {
+        throw new Error("User not found");
+    }
+    return user;
+});
+exports.getMyProfileServices = getMyProfileServices;
 const getAllUserServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const limit = ((_a = req.query) === null || _a === void 0 ? void 0 : _a.limit) ? parseInt((_b = req.query) === null || _b === void 0 ? void 0 : _b.limit) : 2;
@@ -93,7 +105,7 @@ const getAllUserServices = (req) => __awaiter(void 0, void 0, void 0, function* 
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: -1 })
-        .select("-password -isDeleted -createdAt -updatedAt -save_recipes -address")
+        .select("-password -isDeleted -createdAt -updatedAt -save_recipes -child_Accounts -address")
         .lean();
     if (!user) {
         throw new Error("Users not found");
@@ -113,3 +125,11 @@ const updateUserServices = (req) => __awaiter(void 0, void 0, void 0, function* 
     return updating;
 });
 exports.updateUserServices = updateUserServices;
+const addSaveRecipeServices = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const addingRecipe = yield user_model_1.userModel.findOneAndUpdate({ email: req.user.email }, { $push: { save_recipes: req.body } }, { new: true, runValidators: true });
+    if (!addingRecipe) {
+        throw new Error("User not found or unable to add recipe");
+    }
+    return addingRecipe.save_recipes;
+});
+exports.addSaveRecipeServices = addSaveRecipeServices;

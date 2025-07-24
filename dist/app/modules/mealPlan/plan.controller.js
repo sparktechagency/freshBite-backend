@@ -18,6 +18,10 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../lib/catchAsync"));
 const plan_services_1 = require("./plan.services");
 exports.createMealPlanController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if (((_a = req.user) === null || _a === void 0 ? void 0 : _a.email) !== 'admin') {
+        throw new Error("You are not authorized to create a meal plan");
+    }
     const creatingPlan = yield (0, plan_services_1.createMealPlanServices)(req);
     res.status(http_status_1.default.OK).json({
         success: true,
@@ -37,6 +41,10 @@ exports.getMealPlanByEmailController = (0, catchAsync_1.default)((req, res, next
     });
 }));
 exports.updatePlanController = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if (((_a = req.user) === null || _a === void 0 ? void 0 : _a.email) !== 'admin') {
+        throw new Error("You are not authorized to update a meal plan");
+    }
     const updating = yield (0, plan_services_1.updatePlanServices)(req);
     res.status(http_status_1.default.OK).json({
         success: true,
